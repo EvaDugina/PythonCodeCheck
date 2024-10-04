@@ -1,0 +1,37 @@
+repos:
+# Хук проверки соответствия сообщения коммита стандратам Conventional Commits
+# - hooks:
+#   - entry: .hooks/prepare-commit-conventional-hook.py
+#     id: prepare-commit-conventional
+#     language: python
+#     name: Conventional Commit
+#     stages:
+#     - prepare-commit-msg
+#   repo: local
+
+# Локальный Хук проверяющий отсутствие файлов au и update в истории изменений
+# - hooks:
+#   - entry: .hooks/_localHooks/pre-commit
+#     id: pre-commit-no-au-no-update
+#     language: script
+#     name: No au No update
+#     stages:
+#     - pre-commit
+#   repo: local
+
+# Хук для дампа версий
+- hooks:
+  - entry: .hooks/pre-push-commitizen-bump
+    id: pre-push-commitizen-bump
+    language: script
+    name: Commitizen Bump
+    stages:
+    - pre-push
+  repo: local
+
+- hooks:
+  - id: commitizen
+    stages:
+    - commit-msg
+  repo: https://github.com/commitizen-tools/commitizen
+  rev: v3.29.1

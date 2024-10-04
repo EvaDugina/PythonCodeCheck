@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+pipenv run cz bump
+pipenv run cz changelog
