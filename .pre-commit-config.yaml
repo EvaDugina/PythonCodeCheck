@@ -3,15 +3,6 @@ default_install_hook_types:
   - pre-push
 
 repos:
-# Хук проверки соответствия сообщения коммита стандратам Conventional Commits
-#  - repo: local
-#    hooks:
-#      - entry: .hooks/prepare-commit-conventional-hook.py
-#        id: prepare-commit-conventional
-#        language: python
-#        name: Conventional Commit
-#        stages:
-#          - commit-msg
 
 # Хук для дампа версий
   - repo: local
