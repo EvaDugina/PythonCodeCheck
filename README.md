@@ -23,7 +23,7 @@ pre-commit autoupdate
 ##### 2. Использование хука, не дающего изменить файлы auth_ssh и update*
 Скопировать скрипт pre-commit.legacy из папки .hooks/_localHooks и вставить его в папку .git/hooks
 
-##### Проверка историю коммитов наизменения и пывысить версию
+##### Проверка истории коммитов и bump версии
 ```console
 pipenv run cz bump
 ```
