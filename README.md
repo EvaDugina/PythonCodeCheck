@@ -16,8 +16,8 @@ https://github.com/commitizen-tools/commitizen
 pip install --user pipenv
 pipenv install --dev pre-commit Commitizen toml
 pipenv run cz init
-pre-commit install
 pre-commit autoupdate
+pre-commit install
 ```
 
 ##### 2. Использование хука, не дающего изменить файлы auth_ssh и update*
