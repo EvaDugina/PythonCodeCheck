@@ -1,1 +1,5 @@
 .idea/
+env/
+dist/
+build/
+PythonCodeCheck.egg-info/
