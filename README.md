@@ -39,12 +39,19 @@ pip install --upgrade virtualenv
 ##### 2. Использование хука, не дающего изменить файлы auth_ssh и update*
 Скопировать скрипт pre-commit.legacy из папки .hooks/_localHooks и вставить его в папку .git/hooks
 
-##### Проверка истории коммитов и bump версии
+##### 3. Проверка истории коммитов и bump версии
 ```console
 pipenv run cz bump
 ```
 
-##### Обновление CHANGELOG
+##### 4. Обновление CHANGELOG
 ```console
 pipenv run cz changelog
+```
+
+##### 5. В случае появления ошибки 'error: failed to push some refs to' по время push
+```console
+git add .
+git push
+git restore -- .cz.json CHANGELOG.md
 ```
