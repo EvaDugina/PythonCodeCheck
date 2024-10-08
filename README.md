@@ -6,6 +6,7 @@
 ```python 
 pip install pylint
 pip install -r requirements.txt
+pip install .
 ```
 
 ## Виртуальное окружение
