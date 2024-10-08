@@ -1,2 +1,0 @@
-[console_scripts]
-python_code_check = python_code_check.main:main

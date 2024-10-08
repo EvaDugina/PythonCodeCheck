@@ -26,12 +26,13 @@ def main():
 
     # Uncomment code below and comment code above to test without cl args
     config = {
-        "configuration_file_path": './python_code_check/DEFAULT_CONFIG.json',
-        "files_to_check": ["./python_code_check"]
+        "configuration_file_path": '../python_code_check/DEFAULT_CONFIG.json',
+        "files_to_check": ["../Examples/CodeExamples/*.py"]
     }
 
     result = codecheck.start(config)
     print(handle_result(result))
+
 
 if __name__ == "__main__":
     main()

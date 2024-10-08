@@ -12,9 +12,10 @@ setup(name="python_code_check",
       long_description=readme,
       long_description_content_type="text/markdown",
       packages=find_packages(),
+      package_data={'python_code_check': ['checkers/*']},
       entry_points={
             "console_scripts": [
-                  "python_code_check = python_code_check.main:main"
+                  "python_code_check = python_code_check.__main__:main"
             ]
       },
       )
