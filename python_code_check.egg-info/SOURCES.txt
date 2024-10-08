@@ -1,0 +1,11 @@
+README.md
+setup.py
+python_code_check/__init__.py
+python_code_check/codecheck.py
+python_code_check/error.py
+python_code_check/main.py
+python_code_check.egg-info/PKG-INFO
+python_code_check.egg-info/SOURCES.txt
+python_code_check.egg-info/dependency_links.txt
+python_code_check.egg-info/entry_points.txt
+python_code_check.egg-info/top_level.txt

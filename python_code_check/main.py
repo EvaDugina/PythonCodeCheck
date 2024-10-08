@@ -1,9 +1,10 @@
 import argparse
-import codeCheck
+from python_code_check import codecheck
+from python_code_check.error import handle_result
 
 
 def main():
-    # parser = argparse.ArgumentParser(prog="PythonCodeCheck",
+    # parser = argparse.ArgumentParser(prog="python_code_check",
     #                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     # parser.add_argument("files", metavar="files", nargs="+",
     #                     help="paths to test files to check")
@@ -20,17 +21,17 @@ def main():
 
     # config = {
     #     'configuration_file_path': args.conf,
-    #     'check_files': args.files
+    #     'files_to_check': args.files
     # }
 
     # Uncomment code below and comment code above to test without cl args
     config = {
-        "configuration_file_path": './Examples/defaultConfig.json',
-        "check_files": ["./Examples/CodeExamples/MediumCode.py"]
+        "configuration_file_path": './python_code_check/DEFAULT_CONFIG.json',
+        "files_to_check": ["./python_code_check"]
     }
 
-    codeCheck.start(config)
-
+    result = codecheck.start(config)
+    print(handle_result(result))
 
 if __name__ == "__main__":
     main()
