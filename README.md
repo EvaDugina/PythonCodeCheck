@@ -52,6 +52,7 @@ pipenv install --dev pre-commit Commitizen toml
 pipenv run cz init
 pre-commit autoupdate
 pre-commit install
+pip install --upgrade virtualenv
 ```
 
 ##### 2. Использование хука, не дающего изменить файлы auth_ssh и update*
