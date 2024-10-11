@@ -12,7 +12,7 @@ from python_code_check.checkers.mypy import MyPy
 from python_code_check.checkers.profiler import Profiler
 from python_code_check.checkers.pyflakes import Pyflakes
 from python_code_check.checkers.pylint import Pylint
-from python_code_check.checkers.unuittests import UnitTests
+from python_code_check.checkers.unittests import UnitTests
 from python_code_check.error import Result
 
 CONFIGURATION_JSON = {}

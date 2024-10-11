@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 
+git fetch origin
+
 pipenv run cz bump
 pipenv run cz changelog
