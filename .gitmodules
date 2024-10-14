@@ -1,0 +1,3 @@
+[submodule "Examples/TestExamples/hll_tests"]
+	path = Examples/TestExamples/hll_tests
+	url = https://github.com/Vlattte/hll_tests.git
