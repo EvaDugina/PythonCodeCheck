@@ -5,7 +5,9 @@ def convertFiledsOfJsonToCorrectTypes(config_json):
             config_json[key] = config_json[key] == "true"
         elif type(config_json[key]) == str and config_json[key].isdigit():
             config_json[key] = int(config_json[key])
-        elif type(config_json[key]) == list:
+        elif type(config_json[key]) == list and len(config_json[key]) > 0:
+            if type(config_json[key][0]) == str:
+                continue
             inside_list = list()
             for elem in config_json[key]:
                 inside_list.append( convertFiledsOfJsonToCorrectTypes(elem))

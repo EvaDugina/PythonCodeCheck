@@ -10,25 +10,29 @@
           "check": "error",
           "enabled": "true",
           "limit": "0",
-          "autoreject": "false"
+          "autoreject": "false",
+          "disableErrorCodes": []
         },
         {
           "check": "warning",
           "enabled": "true",
           "limit": "0",
-          "autoreject": "false"
+          "autoreject": "false",
+          "disableErrorCodes": []
         },
         {
           "check": "refactor",
-          "enabled": "true",
+          "enabled": "false",
           "limit": "3",
-          "autoreject": "false"
+          "autoreject": "false",
+          "disableErrorCodes": []
         },
         {
           "check": "convention",
-          "enabled": "false",
+          "enabled": "true",
           "limit": "3",
-          "autoreject": "false"
+          "autoreject": "false",
+          "disableErrorCodes": ["C0111", "C0112"]
         }
       ]
     }

@@ -27,6 +27,9 @@ class Pylint(Checker):
         for check in self._checks:
             if not check['enabled']:
                 disable_checks.append(check['check'][0].upper())
+            if 'disableErrorCodes' in check and len(check['disableErrorCodes']) > 0:
+                for code in check['disableErrorCodes']:
+                    disable_checks.append(code)
         if len(disable_checks) > 0:
             flags.append("--disable=" + ",".join(disable_checks))
         return flags
