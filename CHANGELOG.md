@@ -1,3 +1,17 @@
+## 0.9.0 (2024-10-14)
+
+### Feat
+
+- Pylint
+
+### Fix
+
+- Pre-push hook
+
+### Refactor
+
+- Изменения названий файлов + Добавлен git fetch в pre-push-hook
+
 ## 0.8.0 (2024-10-08)
 
 ### Feat
