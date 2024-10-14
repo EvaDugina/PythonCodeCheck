@@ -1,3 +1,9 @@
+## 0.10.0 (2024-10-14)
+
+### Feat
+
+- DisableCodeErrors to Pylint
+
 ## 0.9.1 (2024-10-14)
 
 ### Fix
