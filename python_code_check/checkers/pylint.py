@@ -9,7 +9,8 @@ import os
 from python_code_check.checkers.checker import Checker
 
 class Pylint(Checker):
-    _name = "pylint"
+
+    NAME = "pylint"
     _checks = []
 
     # https://stackoverflow.com/questions/2028268/invoking-pylint-programmatically
@@ -90,7 +91,7 @@ class Pylint(Checker):
         outcome = self.get_outcome(checks_json["checks"])
 
         current_time = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
-        output_file_name = f"{current_time}_{self._name}.txt"
+        output_file_name = f"{current_time}_{self.NAME}.txt"
         with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
             output_file.write(non_parsed_output)
             print(non_parsed_output)
