@@ -2,5 +2,4 @@
 
 git fetch origin
 
-pipenv run cz bump
-pipenv run cz changelog
+pipenv run cz --no-raise 3,21 bump --changelog
