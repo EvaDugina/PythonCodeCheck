@@ -1,7 +1,7 @@
 {
   "tools": {
     "pylint": {
-      "enabled": "true",
+      "enabled": "false",
       "show_to_student": "false",
       "bin": "pylint",
       "arguments": "",
@@ -37,24 +37,26 @@
       ]
     },
     "pytest": {
-      "enabled": true,
-      "show_to_student": false,
+      "enabled": "true",
+      "show_to_student": "false",
       "test_path": "EXAMPLE_PYTEST.py",
       "check": {
-          "limit": 0,
-          "autoreject": true
+          "enabled": "true",
+          "limit": "0",
+          "autoreject": "true",
+          "lab_number": "1"
       }
     },
     "copydetect": {
-      "enabled": true,
-      "show_to_student": false,
+      "enabled": "true",
+      "show_to_student": "false",
       "bin": "copydetect",
       "arguments": "",
       "check": {
           "type": "with_all",
-          "limit": 50,
+          "limit": "50",
           "reference_directory": "copydetect",
-          "autoreject": true
+          "autoreject": "true"
       },
       "full_output": "output_copydetect.html",
       "outcome": "pass"

@@ -27,7 +27,8 @@ def main():
     # Uncomment code below and comment code above to test without cl args
     config = {
         "configuration_file_path": '../Examples/EXAMPLE_CONFIG.json',
-        "files_to_check": ["../Examples/CodeExamples/*.py"]
+        "files_to_check": ["../Examples/TestExamples/hll_tests/src/labs/lab_1/lab1.py",
+                           "../Examples/TestExamples/hll_tests/src/labs/lab_1/storage.py"]
     }
 
     result = codecheck.start(config)

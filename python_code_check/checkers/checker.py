@@ -10,8 +10,11 @@ def convertFiledsOfJsonToCorrectTypes(config_json):
                 continue
             inside_list = list()
             for elem in config_json[key]:
-                inside_list.append( convertFiledsOfJsonToCorrectTypes(elem))
+                inside_list.append(convertFiledsOfJsonToCorrectTypes(elem))
             config_json[key] = inside_list
+        elif type(config_json[key]) == dict:
+            config_json[key] = convertFiledsOfJsonToCorrectTypes(config_json[key])
+
     return config_json
 
 
@@ -32,8 +35,8 @@ class Checker:
     def get_check_results(self, current_checks, extended_results) -> dict:
         pass
 
-    def get_outcome(self, check_results) -> str:
+    def get_outcome(self, check_results: []) -> str:
         pass
 
-    def start(self) -> tuple[str, dict, str]:
+    def start(self) -> tuple[dict, str, str]:
         pass

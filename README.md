@@ -13,6 +13,7 @@ git submodule update
 #### Install libraries un command in root directory:
 ```console
 pip install .
+pip install 
 ```
 
 ### Usage

@@ -62,7 +62,7 @@ class Pylint(Checker):
                 return "fail"
         return "pass"
 
-    def start(self):
+    def start(self) -> tuple[dict, str, str]:
         flags = self.get_flags_from_configuration()
         short_results = []
         extended_results = []

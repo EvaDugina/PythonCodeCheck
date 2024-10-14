@@ -1,6 +1,7 @@
 import json
 from shutil import which
 
+from python_code_check.checkers.pytest import Pytest
 from python_code_check.checkers.pylint import Pylint
 from python_code_check.error import Result
 
@@ -10,6 +11,7 @@ OUTPUT_JSON = {}
 
 TOOLS_COMPARISONS = {
     "pylint": Pylint,
+    "pytest": Pytest,
 }
 
 def start(configuration) -> Result:
@@ -51,8 +53,12 @@ def validate_files_to_check():
 def run_tools():
     print("Running tools..")
     for key, tool in CONFIGURATION_JSON['tools'].items():
-        checker = getCheckerByToolName(key)(tool, FILES_TO_CHECK)
-        if checker is None or not checker.is_enabled():
+        checker = getCheckerByToolName(key)
+        if checker is None:
+            OUTPUT_JSON['tools'][key]['outcome'] = 'skip'
+            continue
+        checker = checker(tool, FILES_TO_CHECK)
+        if not checker.is_enabled():
             OUTPUT_JSON['tools'][key]['outcome'] = 'skip'
             continue
         checks_json, full_output, outcome = checker.start()
