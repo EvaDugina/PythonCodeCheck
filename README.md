@@ -2,14 +2,24 @@
 Модуль проверки Python-кода
 
 ### Install     
-Clone the repository and run command in root directory:
+
+#### Cloning the repository 
+```console
+git clone ...
+git submodule init
+git submodule update
 ```
+
+#### Install libraries un command in root directory:
+```console
 pip install .
 ```
+
 ### Usage
-```
+```console
 python_code_check [-h] -c config.json files [files ...]
-```     
+```
+
 | Argument     | Description |
 | ------------ | ----------- |
 | -h, --help   | show help message and exit|

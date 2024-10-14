@@ -41,6 +41,20 @@
       ],
       "full_output": "output_pylint.xml",
       "outcome": "undefined"
+    },
+    "pytest": {
+      "enabled": true,
+      "show_to_student": false,
+      "test_path": "EXAMPLE_PYTEST.py",
+      "check": {
+          "limit": 0,
+          "autoreject": true,
+          "outcome": "fail",
+          "errors": 0,
+          "failures": 3
+      },
+      "full_output": "output_pytest.txt",
+      "outcome": "pass"
     }
   }
 }

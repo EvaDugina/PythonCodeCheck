@@ -35,6 +35,29 @@
           "disableErrorCodes": ["C0111", "C0112"]
         }
       ]
+    },
+    "pytest": {
+      "enabled": true,
+      "show_to_student": false,
+      "test_path": "EXAMPLE_PYTEST.py",
+      "check": {
+          "limit": 0,
+          "autoreject": true
+      }
+    },
+    "copydetect": {
+      "enabled": true,
+      "show_to_student": false,
+      "bin": "copydetect",
+      "arguments": "",
+      "check": {
+          "type": "with_all",
+          "limit": 50,
+          "reference_directory": "copydetect",
+          "autoreject": true
+      },
+      "full_output": "output_copydetect.html",
+      "outcome": "pass"
     }
   }
 }
