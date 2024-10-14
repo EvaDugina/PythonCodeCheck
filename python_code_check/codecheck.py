@@ -1,18 +1,7 @@
 import json
-import unittest
-import cProfile
-from io import StringIO
 from shutil import which
 
-from pylint.lint import Run
-from pylint.reporters.text import TextReporter
-
-from python_code_check.checkers.flake8 import Flake8
-from python_code_check.checkers.mypy import MyPy
-from python_code_check.checkers.profiler import Profiler
-from python_code_check.checkers.pyflakes import Pyflakes
 from python_code_check.checkers.pylint import Pylint
-from python_code_check.checkers.unittests import UnitTests
 from python_code_check.error import Result
 
 CONFIGURATION_JSON = {}
@@ -21,11 +10,6 @@ OUTPUT_JSON = {}
 
 TOOLS_COMPARISONS = {
     "pylint": Pylint,
-    "pyflakes": Pyflakes,
-    "flake8": Flake8,
-    "mypy": MyPy,
-    "unittests": UnitTests,
-    "profiler": Profiler
 }
 
 def start(configuration) -> Result:
