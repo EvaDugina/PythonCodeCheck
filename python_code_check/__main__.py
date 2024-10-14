@@ -26,7 +26,7 @@ def main():
 
     # Uncomment code below and comment code above to test without cl args
     config = {
-        "configuration_file_path": '../python_code_check/DEFAULT_CONFIG.json',
+        "configuration_file_path": '../Examples/EXAMPLE_CONFIG.json',
         "files_to_check": ["../Examples/CodeExamples/*.py"]
     }
 

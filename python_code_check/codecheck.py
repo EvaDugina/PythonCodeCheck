@@ -68,13 +68,12 @@ def run_tools():
     print("Running tools..")
     for key, tool in CONFIGURATION_JSON['tools'].items():
         checker = getCheckerByToolName(key)(tool, FILES_TO_CHECK)
-        if checker is None:
-            return Result
-        if not checker.is_enabled():
+        if checker is None or not checker.is_enabled():
             OUTPUT_JSON['tools'][key]['outcome'] = 'skip'
             continue
-        result_tool_field, tool_result_json, outcome = checker.start()
-        OUTPUT_JSON['tools'][key][result_tool_field] = tool_result_json
+        checks_json, full_output, outcome = checker.start()
+        OUTPUT_JSON['tools'][key].update(checks_json)
+        OUTPUT_JSON['tools'][key]['full_output'] = full_output
         OUTPUT_JSON['tools'][key]['outcome'] = outcome
 
     return Result.SUCCESS

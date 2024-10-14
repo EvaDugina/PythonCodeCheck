@@ -1,0 +1,46 @@
+{
+  "tools": {
+    "pylint": {
+      "enabled": "true",
+      "show_to_student": "false",
+      "bin": "pylint",
+      "arguments": "",
+      "checks": [
+        {
+          "check": "error",
+          "enabled": "true",
+          "limit": "0",
+          "autoreject": "false",
+          "result": 0,
+          "outcome": "pass"
+        },
+        {
+          "check": "warning",
+          "enabled": "true",
+          "limit": "0",
+          "autoreject": "false",
+          "result": 0,
+          "outcome": "pass"
+        },
+        {
+          "check": "refactor",
+          "enabled": "true",
+          "limit": "3",
+          "autoreject": "false",
+          "result": 0,
+          "outcome": "pass"
+        },
+        {
+          "check": "convention",
+          "enabled": "true",
+          "limit": "3",
+          "autoreject": "false",
+          "result": 0,
+          "outcome": "pass"
+        }
+      ],
+      "full_output": "output_pylint.xml",
+      "outcome": "undefined"
+    }
+  }
+}

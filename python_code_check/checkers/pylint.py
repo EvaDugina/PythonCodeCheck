@@ -1,16 +1,16 @@
-
+import subprocess
 from datetime import datetime
-from io import StringIO
-
+from pylint.reporters import JSONReporter
 from pylint.lint import Run
-from pylint.reporters.text import TextReporter
+from io import StringIO
+import json
+import os
 
 from python_code_check.checkers.checker import Checker
 
-
 class Pylint(Checker):
-
     _name = "pylint"
+    _checks = []
 
     # https://stackoverflow.com/questions/2028268/invoking-pylint-programmatically
     # https://sky.pro/wiki/python/otklyuchenie-preduprezhdeniy-pylint-reshenie-problemy-s-c0321/
@@ -19,34 +19,79 @@ class Pylint(Checker):
 
     def __init__(self, config_json, files_to_check):
         super().__init__(config_json, files_to_check)
+        self._checks = config_json['checks']
 
-    def get_args_from_configuration(self):
-        return [] + self._files_to_check
+    def get_flags_from_configuration(self):
+        flags = []
+        disable_checks = []
+        for check in self._checks:
+            if not check['enabled']:
+                disable_checks.append(check['check'][0].upper())
+        if len(disable_checks) > 0:
+            flags.append("--disable=" + ",".join(disable_checks))
+        return flags
 
-    def get_outcome(self):
+    @staticmethod
+    def get_count_results_by_check_name(check_name, extended_results):
+        count = 0
+        for line in extended_results:
+            if line['type'] == check_name:
+                count += 1
+        return count
+
+    def get_check_results(self, current_checks, extended_results):
+        for check in current_checks:
+            if not check['enabled']:
+                check['result'] = 0
+                check['outcome'] = "skip"
+                continue
+            check['result'] = self.get_count_results_by_check_name(check['check'], extended_results)
+            if check['result'] > check['limit']:
+                check['outcome'] = "fail"
+            else:
+                check['outcome'] = "pass"
+        return current_checks
+
+    def get_outcome(self, check_results):
+        for result in check_results:
+            if result['outcome'] == "fail":
+                return "fail"
         return "pass"
 
-    def start(self) -> tuple[str, dict, str]:
-        pylint_args = self.get_args_from_configuration()
-        pylint_output = StringIO()
-        Run(pylint_args, reporter=TextReporter(pylint_output), exit=False)
-        pylint_result = pylint_output.getvalue()
+    def start(self):
+        flags = self.get_flags_from_configuration()
+        short_results = []
+        extended_results = []
+        non_parsed_output = ""
 
-        for line in pylint_output.read():
-            print(line)
+        # Проверять только те файлы, пути которых соответствуют определённым правилам
+        # from glob import glob
+        # glob_pattern = os.path.join(path, "**", "*.py")
+        # for filepath in glob(glob_pattern, recursive=True):
+
+        for filepath in self._files_to_check:
+            reporter_buffer = StringIO()
+            results = Run([filepath] + flags, reporter=JSONReporter(reporter_buffer), exit=False)
+            score = results.linter.stats.global_note
+            file_results = json.loads(reporter_buffer.getvalue())
+            for element in file_results:
+                non_parsed_output += f"{element['module']}.py:{element['line']}: {element['message-id']} ({element['symbol']}): {element['message']}\n"
+            short_results.append({
+                "filepath": os.path.realpath(filepath),
+                "smell_count": len(file_results),
+                "score": score
+            })
+            extended_results.extend(file_results)
+
+        checks_json = {"checks": self.get_check_results(self._checks, extended_results)}
+        outcome = self.get_outcome(checks_json["checks"])
 
         current_time = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         output_file_name = f"{current_time}_{self._name}.txt"
         with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
-            output_file.write(pylint_result)
+            output_file.write(non_parsed_output)
+            print(non_parsed_output)
 
-        work_status = "pass"
-        work_output = {
-            "full_output": output_file_name,
-            "outcome": work_status
-        }
+        print("Pylint checked")
 
-        outcome = "pass"
-
-        return "check", work_output, outcome
-
+        return checks_json, output_file_name, outcome

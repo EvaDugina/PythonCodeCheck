@@ -1,8 +1,0 @@
-{
-  "tools": {
-    "pylint": {
-      "enabled": true,
-      "show_to_student": false
-    }
-  }
-}
