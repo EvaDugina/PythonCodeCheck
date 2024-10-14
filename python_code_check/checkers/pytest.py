@@ -8,8 +8,8 @@ from python_code_check.checkers.checker import Checker
 class Pytest(Checker):
 
     NAME = "pytest"
-    PATH_TO_TESTS = "../Examples/TestExamples/hll_tests/tests/"
-    PATH_TO_SRC = "../Examples/TestExamples/hll_tests/src/labs/"
+    PATH_TO_TESTS = "./Examples/TestExamples/hll_tests/tests/"
+    PATH_TO_SRC = "./Examples/TestExamples/hll_tests/src/labs/"
 
     _check = {}
 
