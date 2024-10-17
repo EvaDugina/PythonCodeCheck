@@ -1,0 +1,159 @@
+PvcStatus pvcAdd_16s_Sfs(const Pvc16s* pSrc1, const Pvc16s* pSrc2, Pvc16s* pDst, int len, int scaleFactor)
+{
+    if (!pSrc1 || !pSrc2 || !pDst)
+        return pvcStsNullPtrErr;
+    if (len < 1)
+        return pvcStsSizeErr;
+
+    int decr = len & ~0x07, i = 0;
+    //const float scaler = 1.0f/powf(2, scaleFactor);
+    const int scaler = powf(2, scaleFactor);
+
+    if (scaleFactor > 0)
+    {
+
+        __m128i one, two, div_num, incr, eq1, eq2, _ost, even;
+        __m128i mask, sum, sign, minus_ch1, minus_ch2;
+        // __m128i lt, only_eq, odd;
+        __m128i num, ch1, ch2, ost;
+        __m128i round_num = _mm_set1_epi16(scaler / 2), minus_scaler = _mm_mullo_epi16(round_num, _mm_set1_epi16(-1)),
+            triple_scale_num = _mm_mullo_epi16(round_num, _mm_set1_epi16(3));
+
+        for (i; i < decr; i += 8)
+        {
+
+            ch1 = _mm_loadu_si128((__m128i*) & pSrc1[i]);
+            ch2 = _mm_loadu_si128((__m128i*) & pSrc2[i]);
+
+
+            //div_num = _mm_srai_epi16(ch, scaleFactor);                     
+            //sum = _mm_add_epi16(div_num, div_const);                        
+
+            minus_ch1 = _mm_srai_epi16(ch1, scaleFactor);
+            minus_ch2 = _mm_srai_epi16(ch2, scaleFactor);
+            sum = _mm_add_epi16(minus_ch1, minus_ch2);
+
+            eq1 = _mm_mullo_epi16(_mm_set1_epi16(scaler), minus_ch1);
+            eq2 = _mm_mullo_epi16(_mm_set1_epi16(scaler), minus_ch2);
+
+            minus_ch1 = _mm_cmpgt_epi16(_mm_set1_epi16(0), minus_ch1);        
+            minus_ch2 = _mm_cmpgt_epi16(_mm_set1_epi16(0), minus_ch2);        
+
+            eq1 = _mm_cmpeq_epi16(eq1, ch1);
+            eq2 = _mm_cmpeq_epi16(eq2, ch2);
+            eq1 = _mm_add_epi16(minus_ch1, _mm_mullo_epi16(eq1, minus_ch1));
+            eq2 = _mm_add_epi16(minus_ch2, _mm_mullo_epi16(eq2, minus_ch2));
+            sum = _mm_sub_epi16(sum, _mm_add_epi16(eq1, eq2));
+
+
+
+
+            //eq = _mm_mullo_epi16(_mm_set1_epi16(scaler), sum);              
+            //eq = _mm_cmpeq_epi16(eq, ch);                                   
+            //eq = _mm_add_epi16(minus, _mm_mullo_epi16(eq, minus)
+            //sum = _mm_sub_epi16(sum, eq);                                   
+
+            //one = _mm_add_epi16(ch, intrin_value);                          
+            //two = _mm_mullo_epi16(sum, _mm_set1_epi16(scaler));             
+            //ost = _mm_sub_epi16(one, two);                                  
+
+            ost = _mm_sub_epi16(_mm_add_epi16(ch1, ch2),
+                _mm_mullo_epi16(sum, _mm_set1_epi16(scaler)));
+
+        
+            minus_ch1 = _mm_cmpgt_epi16(_mm_set1_epi16(0), ost);
+            //sign = _mm_set1_epi16(1);
+            //sign = _mm_add_epi16(minus, _mm_add_epi16(minus, sign));        
+            //ost = _mm_abs_epi16(ost);                                       
+
+            sign = _mm_add_epi16(minus_ch1, _mm_add_epi16(minus_ch1, _mm_set1_epi16(1)));
+            ost = _mm_abs_epi16(ost);
+
+
+
+            //minus = _mm_cmpgt_epi16(ost, round_num);                        
+            //eq = _mm_cmpeq_epi16(ost, round_num);                           
+            //odd = _mm_and_si128(sum, _mm_set1_epi16(1));                    
+            //only_eq = _mm_mullo_epi16(odd, eq);                             
+            //mask = _mm_abs_epi16(_mm_add_epi16(minus, only_eq));
+
+            mask = _mm_abs_epi16(_mm_add_epi16(_mm_cmpgt_epi16(ost, round_num),
+                _mm_mullo_epi16(_mm_and_si128(sum, _mm_set1_epi16(1)), _mm_cmpeq_epi16(ost, round_num))));
+
+            //lt = _mm_cmplt_epi16(triple_scale_num, ost);                    
+            //eq = _mm_cmpeq_epi16(triple_scale_num, ost);                    
+            //even = _mm_andnot_si128(sum, _mm_set1_epi16(1));                
+            //only_eq = _mm_mullo_epi16(even, _mm_abs_epi16(eq));             
+
+            //one = _mm_sub_epi16(only_eq, lt);                               
+            //mask = _mm_add_epi16(mask, one);                                
+            //mask = _mm_mullo_epi16(sign, mask);
+            //sum = _mm_add_epi16(mask, sum);
+
+            mask = _mm_mullo_epi16(sign, _mm_add_epi16(mask, _mm_sub_epi16(_mm_mullo_epi16(_mm_andnot_si128(sum, _mm_set1_epi16(1)),
+                _mm_abs_epi16(_mm_cmpeq_epi16(triple_scale_num, ost))), _mm_cmplt_epi16(triple_scale_num, ost))));
+            sum = _mm_add_epi16(mask, sum);
+
+            _mm_storeu_si128((__m128i*) & pDst[i], sum);
+
+
+           /* for (int k = i; k < i + 8; k++)
+            {
+                printf("el[%d] = %d\n", k, pDst[k]);
+            }*/
+        }
+    }
+    else
+    {
+        for (i; i < decr; i += 8)
+        {
+            _mm_storeu_si128((__m128i*) & pDst[i], _mm_add_epi16(
+                _mm_set_epi16(pSrc1[i + 7], pSrc1[i + 6], pSrc1[i + 5], pSrc1[i + 4],
+                    pSrc1[i + 3], pSrc1[i + 2], pSrc1[i + 1], pSrc1[i]),
+                _mm_set_epi16(pSrc2[i + 7], pSrc2[i + 6], pSrc2[i + 5], pSrc2[i + 4],
+                    pSrc2[i + 3], pSrc2[i + 2], pSrc2[i + 1], pSrc2[i])));
+        }
+    }
+
+    float buf;
+    for (i; i < len; ++i)
+    {
+        buf = (pSrc1[i] + pSrc2[i]) / (float)scaler;
+        if (buf > 32766)
+        {
+            pDst[i] = 32767;
+            continue;
+        }
+        else if (buf < -1.0*32767)
+        {
+            pDst[i] = -32768;
+            continue;
+        }
+
+        if (buf - floor(buf) == 0.5)
+        {
+            short beb = (short)floor(buf);
+            beb = beb % 2;
+            if ((short)floor(buf) % 2 > 0)
+            {
+                pDst[i] = buf + 1;
+                continue;
+            }
+            else if ((short)ceilf(buf) % 2 == -1)
+            {
+                pDst[i] = buf - 1;
+                continue;
+            }
+        }
+
+        if (buf > 0)
+        {
+            pDst[i] = std::ceilf(buf - 0.5);
+        }
+        else
+        {
+            pDst[i] = std::floor(buf + 0.5);
+        }
+    }
+    return pvcStsNoErr;
+}

@@ -39,13 +39,14 @@
     "pytest": {
       "enabled": "true",
       "show_to_student": "false",
-      "test_path": "EXAMPLE_PYTEST.py",
-      "check": {
+      "checks": [
+        {
           "enabled": "true",
           "limit": "0",
           "autoreject": "true",
-          "lab_number": "1"
-      }
+          "test_file_path": "../Examples/EXAMPLE_AUTOTESTS.py"
+        }
+      ]
     },
     "copydetect": {
       "enabled": "true",

@@ -90,7 +90,7 @@ class Pylint(Checker):
         checks_json = {"checks": self.get_check_results(self._checks, extended_results)}
         outcome = self.get_outcome(checks_json["checks"])
 
-        current_time = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
+        current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
         output_file_name = f"{current_time}_{self.NAME}.txt"
         with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
             output_file.write(non_parsed_output)

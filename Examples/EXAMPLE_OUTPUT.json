@@ -45,7 +45,7 @@
     "pytest": {
       "enabled": true,
       "show_to_student": false,
-      "test_path": "EXAMPLE_PYTEST.py",
+      "test_path": "python_code_check/autotest_module/test_lab1.py",
       "check": {
           "limit": 0,
           "autoreject": true,

@@ -18,7 +18,7 @@ def main():
     # if not args.files:
     #     parser.error("path to files to check must be provided"
     #                  "specify it with -t or --test flags")
-
+    #
     # config = {
     #     'configuration_file_path': args.conf,
     #     'files_to_check': args.files
@@ -27,8 +27,8 @@ def main():
     # Uncomment code below and comment code above to test without cl args
     config = {
         "configuration_file_path": '../Examples/EXAMPLE_CONFIG.json',
-        "files_to_check": ["../Examples/TestExamples/hll_tests/src/labs/lab_1/lab1.py",
-                           "../Examples/TestExamples/hll_tests/src/labs/lab_1/storage.py"]
+        "files_to_check": ["../Examples/CodeExamples/example_student_file/main.py",
+                           "../Examples/CodeExamples/example_student_file/storage.py"]
     }
 
     result = codecheck.start(config)
