@@ -1,3 +1,9 @@
+## 0.11.0 (2024-10-17)
+
+### Feat
+
+- Run pytest without parsing results
+
 ## 0.10.0 (2024-10-14)
 
 ### Feat
