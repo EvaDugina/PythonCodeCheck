@@ -8,10 +8,19 @@ from pathlib import Path
 from python_code_check.checkers.checker import Checker
 
 
-class Pytest(Checker):
+def clear_directory(directory_path):
+    print("clear_directory()")
+    for item in os.listdir(directory_path):
+        item_path = os.path.join(directory_path, item)
+        if os.path.isfile(item_path):
+            os.remove(item_path)
+        elif os.path.isdir(item_path):
+            shutil.rmtree(item_path)
 
+
+class Pytest(Checker):
     NAME = "pytest"
-    PATH_TO_AUTOTESTS = "pytest_module/autotests/"
+    PATH_TO_AUTOTESTS = "autotests/"
 
     _checks = {}
     _path_to_current_autotest_pack = ""
@@ -35,8 +44,8 @@ class Pytest(Checker):
     def get_count_results_by_check_name(self, extended_results):
         summary = re.search(r"\d.* failed, .* passed in .*(..*|.*)s", extended_results).group(0)
         failed = summary[0:summary.index(" failed,")]
-        passed = summary[summary.index(" failed, ")+9:summary.index(" passed")]
-        seconds = summary[summary.index("in ")+3:-1]
+        passed = summary[summary.index(" failed, ") + 9:summary.index(" passed")]
+        seconds = summary[summary.index("in ") + 3:-1]
         return int(failed), int(passed), float(seconds)
 
     def get_autotest_from_config(self):
@@ -79,7 +88,8 @@ class Pytest(Checker):
         checks_json = {"checks": []}
         total_output = ""
         for key, autotest_path in self._compair_path_to_tests.items():
-            result = subprocess.run(["pytest"] + self.get_flags_from_configuration(key) + [autotest_path], capture_output=True)
+            result = subprocess.run(["pytest"] + self.get_flags_from_configuration(key) + [autotest_path],
+                                    capture_output=True)
             output = result.stdout.decode("utf-8")
             total_output += output + "\n\n"
             checks_json["checks"].append(self.get_check_results(self.get_check_by_name(key), output))
@@ -92,7 +102,9 @@ class Pytest(Checker):
             output_file.write(total_output)
             # print(total_output)
 
+
         print("Pytest checked")
+        clear_directory("autotests")
 
         return checks_json, output_file_name, outcome
 
@@ -106,4 +118,3 @@ class Pytest(Checker):
             new_autotest_file_path = f"{self._path_to_current_autotest_pack}{file_name}"
             shutil.copy(autotest_file_path, new_autotest_file_path)
             self._compair_path_to_tests[key] = new_autotest_file_path
-
