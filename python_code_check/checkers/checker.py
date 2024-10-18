@@ -29,7 +29,7 @@ class Checker:
     def is_enabled(self) -> bool:
         return self._config_json['enabled']
 
-    def get_flags_from_configuration(self) -> []:
+    def get_flags_from_configuration(self, check_name=None) -> []:
         pass
 
     def get_check_results(self, current_checks, extended_results) -> dict:

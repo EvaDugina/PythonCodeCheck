@@ -1,7 +1,7 @@
 {
   "tools": {
     "pylint": {
-      "enabled": "false",
+      "enabled": "true",
       "show_to_student": "false",
       "bin": "pylint",
       "arguments": "",
@@ -41,10 +41,18 @@
       "show_to_student": "false",
       "checks": [
         {
+          "check": "base",
           "enabled": "true",
           "limit": "0",
           "autoreject": "true",
           "test_file_path": "../Examples/EXAMPLE_AUTOTESTS.py"
+        },
+        {
+          "check": "base2",
+          "enabled": "true",
+          "limit": "0",
+          "autoreject": "false",
+          "test_file_path": "../Examples/EXAMPLE_AUTOTESTS_2.py"
         }
       ]
     },

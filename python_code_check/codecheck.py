@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from shutil import which
 
 from python_code_check.checkers.pytest import Pytest
@@ -66,7 +67,16 @@ def run_tools():
         OUTPUT_JSON['tools'][key]['full_output'] = full_output
         OUTPUT_JSON['tools'][key]['outcome'] = outcome
 
+    save_output_json()
+
     return Result.SUCCESS
+
+
+def save_output_json():
+    current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
+    output_file_name = f"{current_time}_output.json"
+    with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
+        json.dump(OUTPUT_JSON, output_file, ensure_ascii=False, indent=4)
 
 
 def getCheckerByToolName(tool_name):
