@@ -1,9 +1,11 @@
 import json
+import os
 from datetime import datetime
 from shutil import which
 
 from python_code_check.checkers.pytest import Pytest
 from python_code_check.checkers.pylint import Pylint
+from python_code_check.checkers.copydetect import Copydetect
 from python_code_check.error import Result
 
 CONFIGURATION_JSON = {}
@@ -13,6 +15,7 @@ OUTPUT_JSON = {}
 TOOLS_COMPARISONS = {
     "pylint": Pylint,
     "pytest": Pytest,
+    "copydetect": Copydetect,
 }
 
 def start(configuration) -> Result:
@@ -27,6 +30,9 @@ def start(configuration) -> Result:
 
     if not validate_files_to_check():
         return Result.ERROR_VALIDATE_FILES_TO_CHECK
+
+    if not os.path.exists("outputs/"):
+        os.mkdir("outputs/")
 
     return run_tools()
 

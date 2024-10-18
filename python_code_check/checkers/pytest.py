@@ -1,7 +1,7 @@
 import os
 import re
 import subprocess
-from datetime import datetime
+from datetime import datetime, timedelta
 import shutil
 from pathlib import Path
 
@@ -86,8 +86,9 @@ class Pytest(Checker):
 
         outcome = self.get_outcome(checks_json["checks"])
 
-        output_file_name = f"output.txt"
-        with open(f"{self._path_to_current_autotest_pack}/{output_file_name}", "w", encoding="utf-8") as output_file:
+        current_time = (datetime.now() - timedelta(microseconds=1)).strftime("%Y%m%d%H%M%S%f")
+        output_file_name = f"{current_time}_output_{self.NAME}.txt"
+        with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
             output_file.write(total_output)
             # print(total_output)
 
