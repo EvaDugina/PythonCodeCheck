@@ -1,5 +1,7 @@
-from python_code_check.checkers.checker import Checker
+import os
 
+from python_code_check.checkers.checker import Checker
+from shutil import which, copy, rmtree
 
 class Copydetect(Checker):
     NAME = "copydetect"
@@ -23,18 +25,23 @@ class Copydetect(Checker):
             rmtree('test_directory')
 
         os.mkdir('test_directory')
-        for file in files:
+        for file in self._files_to_check:
             copy(file, 'test_directory')
 
         command = 'copydetect -t test_directory -r {} -a -d 0 --out-file \'output_copydetect\''.format(
-            data['tools']['copydetect']['check']['reference_directory'])
-        system(command)
+            self._check['reference_directory'])
+        os.system(command)
         rmtree('test_directory')
-        data['tools']['copydetect']['full_output'] = "output_copydetect.html"
-        data['tools']['copydetect']['outcome'] = 'pass'
 
-        data['tools']['copydetect']['check']['outcome'] = 'pass'
-        data['tools']['copydetect']['check']['result'] = 0
+        self._check['check']['outcome'] = 'pass'
+        self._check['check']['result'] = 0
+
+        check_json = {'check': self._check['check']}
+
+        full_output = "output_copydetect.html"
+        outcome = 'pass'
 
         print('Copydetect checked')
+
+        return check_json, full_output, outcome
 

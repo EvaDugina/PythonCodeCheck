@@ -25,13 +25,14 @@ class Pytest(Checker):
     _checks = {}
     _path_to_current_autotest_pack = ""
     _compair_path_to_tests = {}
+    _current_test_pack_dir_name = ""
 
     def __init__(self, config_json, files_to_check):
         super().__init__(config_json, files_to_check)
         self._checks = config_json['checks']
         current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
-        autotest_dir_name = f"{current_time}_test_pack/"
-        self._path_to_current_autotest_pack = f"{self.PATH_TO_AUTOTESTS}{autotest_dir_name}/"
+        self._current_test_pack_dir_name = f"{current_time}_test_pack/"
+        self._path_to_current_autotest_pack = f"{self.PATH_TO_AUTOTESTS}{self._current_test_pack_dir_name}/"
         os.mkdir(self._path_to_current_autotest_pack)
         os.mkdir(f"{self._path_to_current_autotest_pack}student_code/")
 
@@ -89,8 +90,9 @@ class Pytest(Checker):
         total_output = ""
         for key, autotest_path in self._compair_path_to_tests.items():
             result = subprocess.run(["pytest"] + self.get_flags_from_configuration(key) + [autotest_path],
-                                    capture_output=True)
+                                    cwd=self._path_to_current_autotest_pack, capture_output=True)
             output = result.stdout.decode("utf-8")
+            print(output)
             total_output += output + "\n\n"
             checks_json["checks"].append(self.get_check_results(self.get_check_by_name(key), output))
 
@@ -109,6 +111,9 @@ class Pytest(Checker):
         return checks_json, output_file_name, outcome
 
     def copy_files_to_tests_folder(self):
+
+        shutil.copy("../Examples/EXAMPLE_CONFTEST.py", f"{self._path_to_current_autotest_pack}conftest.py")
+
         for file_path in self._files_to_check:
             file_name = os.path.basename(file_path)
             shutil.copy(file_path, f"{self._path_to_current_autotest_pack}student_code/{file_name}")
@@ -117,4 +122,4 @@ class Pytest(Checker):
             file_name = os.path.basename(autotest_file_path)
             new_autotest_file_path = f"{self._path_to_current_autotest_pack}{file_name}"
             shutil.copy(autotest_file_path, new_autotest_file_path)
-            self._compair_path_to_tests[key] = new_autotest_file_path
+            self._compair_path_to_tests[key] =  file_name

@@ -31,8 +31,7 @@ def start(configuration) -> Result:
     if not validate_files_to_check():
         return Result.ERROR_VALIDATE_FILES_TO_CHECK
 
-    if not os.path.exists("outputs/"):
-        os.mkdir("outputs/")
+    check_directory_structure()
 
     return run_tools()
 
@@ -55,6 +54,14 @@ def validate_files_to_check():
     if len(FILES_TO_CHECK) < 1:
         return False
     return True
+
+
+def check_directory_structure():
+    if not os.path.exists("outputs/"):
+        os.mkdir("outputs/")
+
+    if not os.path.exists("autotests/"):
+        os.mkdir("autotests/")
 
 
 def run_tools():

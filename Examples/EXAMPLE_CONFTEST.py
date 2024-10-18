@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+import shutil
+
 import pytest
 import os
-
 
 @pytest.fixture
 def lab1_string_array():
@@ -28,4 +29,3 @@ def lab1_unique_array():
 @pytest.fixture(scope="function")
 def x(request):
     return request.param * 3
-
