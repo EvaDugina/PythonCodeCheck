@@ -1,60 +1,97 @@
 {
-  "tools": {
-    "pylint": {
-      "enabled": "true",
-      "show_to_student": "false",
-      "bin": "pylint",
-      "arguments": "",
-      "checks": [
-        {
-          "check": "error",
-          "enabled": "true",
-          "limit": "0",
-          "autoreject": "false",
-          "result": 0,
-          "outcome": "pass"
+    "tools": {
+        "pylint": {
+            "enabled": true,
+            "show_to_student": false,
+            "bin": "pylint",
+            "arguments": "",
+            "checks": [
+                {
+                    "check": "error",
+                    "enabled": true,
+                    "limit": 0,
+                    "autoreject": false,
+                    "disableErrorCodes": [],
+                    "result": 0,
+                    "outcome": "pass"
+                },
+                {
+                    "check": "warning",
+                    "enabled": true,
+                    "limit": 0,
+                    "autoreject": false,
+                    "disableErrorCodes": [],
+                    "result": 5,
+                    "outcome": "fail"
+                },
+                {
+                    "check": "refactor",
+                    "enabled": false,
+                    "limit": 3,
+                    "autoreject": false,
+                    "disableErrorCodes": [],
+                    "result": 0,
+                    "outcome": "skip"
+                },
+                {
+                    "check": "convention",
+                    "enabled": true,
+                    "limit": 3,
+                    "autoreject": false,
+                    "disableErrorCodes": [
+                        "C0111",
+                        "C0112"
+                    ],
+                    "result": 6,
+                    "outcome": "fail"
+                }
+            ],
+            "full_output": "20241018151952870335_pylint.txt",
+            "outcome": "fail"
         },
-        {
-          "check": "warning",
-          "enabled": "true",
-          "limit": "0",
-          "autoreject": "false",
-          "result": 0,
-          "outcome": "pass"
+        "pytest": {
+            "enabled": true,
+            "show_to_student": false,
+            "checks": [
+                {
+                    "check": "base",
+                    "enabled": true,
+                    "limit": 0,
+                    "autoreject": true,
+                    "test_file_path": "../Examples/EXAMPLE_AUTOTESTS.py",
+                    "failed": 1,
+                    "passed": 30,
+                    "seconds": 0.19,
+                    "outcome": "fail"
+                },
+                {
+                    "check": "base2",
+                    "enabled": true,
+                    "limit": 0,
+                    "autoreject": false,
+                    "test_file_path": "../Examples/EXAMPLE_AUTOTESTS_2.py",
+                    "failed": 9,
+                    "passed": 44,
+                    "seconds": 2.5,
+                    "outcome": "fail"
+                }
+            ],
+            "full_output": "output.txt",
+            "outcome": "fail"
         },
-        {
-          "check": "refactor",
-          "enabled": "true",
-          "limit": "3",
-          "autoreject": "false",
-          "result": 0,
-          "outcome": "pass"
-        },
-        {
-          "check": "convention",
-          "enabled": "true",
-          "limit": "3",
-          "autoreject": "false",
-          "result": 0,
-          "outcome": "pass"
+        "copydetect": {
+            "enabled": false,
+            "show_to_student": "false",
+            "bin": "copydetect",
+            "arguments": "",
+            "check": {
+                "type": "with_all",
+                "limit": "50",
+                "reference_directory": "copydetect",
+                "autoreject": "true"
+            },
+            "full_output": "output_copydetect.html",
+            "outcome": "skip"
         }
-      ],
-      "full_output": "output_pylint.xml",
-      "outcome": "undefined"
-    },
-    "pytest": {
-      "enabled": true,
-      "show_to_student": false,
-      "test_path": "python_code_check/autotest_module/test_lab1.py",
-      "check": {
-          "limit": 0,
-          "autoreject": true,
-          "outcome": "fail",
-          "errors": 0,
-          "failures": 3
-      },
-      "full_output": "output_pytest.txt",
-      "outcome": "pass"
     }
-  }
 }
