@@ -1,0 +1,3 @@
+[submodule "python_code_check/copydetect"]
+	path = python_code_check/copydetect
+	url = http://vgit.mirea.ru/kvasnikoff/copydetect.git
