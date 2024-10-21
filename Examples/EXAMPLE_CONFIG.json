@@ -37,8 +37,9 @@
       ]
     },
     "pytest": {
-      "enabled": "true",
+      "enabled": "false",
       "show_to_student": "false",
+      "bin": "pytest",
       "checks": [
         {
           "check": "base",
@@ -59,8 +60,8 @@
     "copydetect": {
       "enabled": "true",
       "show_to_student": "false",
-      "bin": "copydetect",
       "arguments": "",
+      "bin": "copydetect",
       "check": {
           "type": "with_all",
           "limit": "50",

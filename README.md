@@ -5,7 +5,7 @@
 
 #### Cloning the repository 
 ```console
-git clone ...
+git clone
 git submodule init
 git submodule update
 ```
@@ -13,7 +13,7 @@ git submodule update
 #### Install libraries un command in root directory:
 ```console
 pip install .
-pip install 
+pip install python_code_check/copydetect/requirements.txt
 ```
 
 ### Usage
