@@ -112,7 +112,7 @@ class Pytest(Checker):
 
     def copy_files_to_tests_folder(self):
 
-        shutil.copy("../Examples/EXAMPLE_CONFTEST.py", f"{self._path_to_current_autotest_pack}conftest.py")
+        shutil.copy("../Examples/CONFTEST.py", f"{self._path_to_current_autotest_pack}conftest.py")
 
         for file_path in self._files_to_check:
             file_name = os.path.basename(file_path)
