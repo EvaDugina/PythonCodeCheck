@@ -33,10 +33,10 @@ class Copydetect(Checker):
         os.system(command)
         rmtree('test_directory')
 
-        self._check['check']['outcome'] = 'pass'
-        self._check['check']['result'] = 0
+        self._check['outcome'] = 'pass'
+        self._check['result'] = 0
 
-        check_json = {'check': self._check['check']}
+        check_json = {'check': self._check}
 
         full_output = "output_copydetect.html"
         outcome = 'pass'
