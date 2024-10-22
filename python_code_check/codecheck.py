@@ -86,7 +86,11 @@ def run_tools():
 
 
 def save_output_json():
-    current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
+    # current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
+    if 'uniqueTimeKey' in CONFIGURATION_JSON:
+        current_time = CONFIGURATION_JSON['uniqueTimeKey']
+    else:
+        current_time = ""
     output_file_name = f"{current_time}_output.json"
     with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
         json.dump(OUTPUT_JSON, output_file, ensure_ascii=False, indent=4)
