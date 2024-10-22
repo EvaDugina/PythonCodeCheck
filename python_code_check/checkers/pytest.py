@@ -43,6 +43,8 @@ class Pytest(Checker):
         flags = ["-q"]
         if self.get_check_by_name(check_name)['autoreject']:
             flags.append("-x")
+        if self._config_json['arguments'] != "":
+            flags += self._config_json['arguments'].split(" ")
         return flags
 
     def get_count_results_by_check_name(self, extended_results):
@@ -105,7 +107,7 @@ class Pytest(Checker):
         output_file_name = f"{current_time}_output_{self.NAME}.txt"
         with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
             output_file.write(total_output)
-            print(total_output)
+            # print(total_output)
 
         print("Pytest checked")
         remove_directory(self._path_to_current_autotest_pack)
