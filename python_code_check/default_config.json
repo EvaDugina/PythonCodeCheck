@@ -1,7 +1,7 @@
 {
   "tools": {
     "pylint": {
-      "enabled": "false",
+      "enabled": "true",
       "show_to_student": "false",
       "bin": "pylint",
       "arguments": "",
@@ -16,7 +16,7 @@
         {
           "check": "warning",
           "enabled": "true",
-          "limit": "0",
+          "limit": "6",
           "autoreject": "false",
           "disableErrorCodes": []
         },
@@ -30,14 +30,14 @@
         {
           "check": "convention",
           "enabled": "true",
-          "limit": "3",
+          "limit": "7",
           "autoreject": "false",
           "disableErrorCodes": ["C0111", "C0112"]
         }
       ]
     },
     "pytest": {
-      "enabled": "false",
+      "enabled": "true",
       "show_to_student": "false",
       "bin": "pytest",
       "checks": [
@@ -46,19 +46,19 @@
           "enabled": "true",
           "limit": "0",
           "autoreject": "true",
-          "test_file_path": "./Examples/EXAMPLE_AUTOTESTS.py"
+          "test_file_path": "./python_code_check/autotests/EXAMPLE_AUTOTESTS.py"
         },
         {
           "check": "base2",
-          "enabled": "true",
+          "enabled": "false",
           "limit": "0",
           "autoreject": "false",
-          "test_file_path": "./Examples/EXAMPLE_AUTOTESTS_2.py"
+          "test_file_path": "./python_code_check/autotests/EXAMPLE_AUTOTESTS_2.py"
         }
       ]
     },
     "copydetect": {
-      "enabled": "true",
+      "enabled": "false",
       "show_to_student": "false",
       "arguments": "",
       "bin": "copydetect",

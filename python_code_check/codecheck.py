@@ -60,8 +60,8 @@ def check_directory_structure():
     if not os.path.exists("outputs/"):
         os.mkdir("outputs/")
 
-    if not os.path.exists("autotests/"):
-        os.mkdir("autotests/")
+    if not os.path.exists("autotesting/"):
+        os.mkdir("autotesting/")
 
 
 def run_tools():

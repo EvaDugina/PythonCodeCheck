@@ -18,7 +18,8 @@ pip install python_code_check/copydetect/requirements.txt
 
 ### Usage
 ```console
-python_code_check [-h] -c config.json files [files ...]
+pip install .
+python_code_check -c config.json files [files ...]
 ```
 
 | Argument     | Description |

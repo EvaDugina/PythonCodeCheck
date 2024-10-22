@@ -9,7 +9,6 @@ from python_code_check.checkers.checker import Checker
 
 
 def clear_directory(directory_path):
-    print("clear_directory()")
     for item in os.listdir(directory_path):
         item_path = os.path.join(directory_path, item)
         if os.path.isfile(item_path):
@@ -18,9 +17,13 @@ def clear_directory(directory_path):
             shutil.rmtree(item_path)
 
 
+def remove_directory(directory_path):
+    shutil.rmtree(directory_path)
+
+
 class Pytest(Checker):
     NAME = "pytest"
-    PATH_TO_AUTOTESTS = "autotests/"
+    PATH_TO_AUTOTESTS = "autotesting/"
 
     _checks = {}
     _path_to_current_autotest_pack = ""
@@ -91,7 +94,7 @@ class Pytest(Checker):
         for key, autotest_path in self._compair_path_to_tests.items():
             result = subprocess.run(["pytest"] + self.get_flags_from_configuration(key) + [autotest_path],
                                     cwd=self._path_to_current_autotest_pack, capture_output=True)
-            output = result.stdout.decode("utf-8")
+            output = result.stdout.decode("cp1251")
             print(output)
             total_output += output + "\n\n"
             checks_json["checks"].append(self.get_check_results(self.get_check_by_name(key), output))
@@ -102,17 +105,16 @@ class Pytest(Checker):
         output_file_name = f"{current_time}_output_{self.NAME}.txt"
         with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
             output_file.write(total_output)
-            # print(total_output)
-
+            print(total_output)
 
         print("Pytest checked")
-        clear_directory("autotests")
+        remove_directory(self._path_to_current_autotest_pack)
 
         return checks_json, output_file_name, outcome
 
     def copy_files_to_tests_folder(self):
 
-        shutil.copy("../Examples/CONFTEST.py", f"{self._path_to_current_autotest_pack}conftest.py")
+        shutil.copy("./python_code_check/conftest_for_cloning.py", f"{self._path_to_current_autotest_pack}conftest.py")
 
         for file_path in self._files_to_check:
             file_name = os.path.basename(file_path)
@@ -122,4 +124,4 @@ class Pytest(Checker):
             file_name = os.path.basename(autotest_file_path)
             new_autotest_file_path = f"{self._path_to_current_autotest_pack}{file_name}"
             shutil.copy(autotest_file_path, new_autotest_file_path)
-            self._compair_path_to_tests[key] =  file_name
+            self._compair_path_to_tests[key] = file_name

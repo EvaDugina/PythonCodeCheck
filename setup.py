@@ -6,6 +6,7 @@ import python_code_check
 with open("README.md", "r", encoding="utf-8") as readme_fp:
     readme = readme_fp.read()
 
+
 def get_commitizen_config_json():
     with open('.cz.json', encoding="utf-8") as commitizen_config_file:
         return json.load(commitizen_config_file)
@@ -23,10 +24,10 @@ setup(name="python_code_check",
       long_description=readme,
       long_description_content_type="text/markdown",
       packages=find_packages(),
-      package_data={'python_code_check': ['checkers/*']},
+      package_data={'python_code_check': ['autotests/*', 'checkers/*', 'copydetect/*']},
       entry_points={
-            "console_scripts": [
-                  "python_code_check = python_code_check.__main__:main"
-            ]
+          "console_scripts": [
+              "python_code_check = python_code_check.__main__:main"
+          ]
       },
       )

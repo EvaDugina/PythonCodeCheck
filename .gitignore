@@ -1,3 +1,6 @@
+autotests/*
+outputs/*
+
 .idea/
 env/
 dist/
@@ -6,7 +9,6 @@ PythonCodeCheck.egg-info/
 */__pycache__/*
 python_code_check.egg-info/*
 python_code_check/checkers/__pycache__/
-python_code_check/outputs/*
 */__pycache__*/*
 
 # Byte-compiled / optimized / DLL files
