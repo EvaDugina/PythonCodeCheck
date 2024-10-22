@@ -46,14 +46,14 @@
           "enabled": "true",
           "limit": "0",
           "autoreject": "true",
-          "test_file_path": "../Examples/EXAMPLE_AUTOTESTS.py"
+          "test_file_path": "./Examples/EXAMPLE_AUTOTESTS.py"
         },
         {
           "check": "base2",
           "enabled": "true",
           "limit": "0",
           "autoreject": "false",
-          "test_file_path": "../Examples/EXAMPLE_AUTOTESTS_2.py"
+          "test_file_path": "./Examples/EXAMPLE_AUTOTESTS_2.py"
         }
       ]
     },
