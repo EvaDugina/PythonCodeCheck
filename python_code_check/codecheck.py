@@ -1,8 +1,11 @@
 import json
+import os
+from datetime import datetime
 from shutil import which
 
 from python_code_check.checkers.pytest import Pytest
 from python_code_check.checkers.pylint import Pylint
+from python_code_check.checkers.copydetect import Copydetect
 from python_code_check.error import Result
 
 CONFIGURATION_JSON = {}
@@ -12,6 +15,7 @@ OUTPUT_JSON = {}
 TOOLS_COMPARISONS = {
     "pylint": Pylint,
     "pytest": Pytest,
+    "copydetect": Copydetect,
 }
 
 def start(configuration) -> Result:
@@ -26,6 +30,8 @@ def start(configuration) -> Result:
 
     if not validate_files_to_check():
         return Result.ERROR_VALIDATE_FILES_TO_CHECK
+
+    check_directory_structure()
 
     return run_tools()
 
@@ -50,6 +56,14 @@ def validate_files_to_check():
     return True
 
 
+def check_directory_structure():
+    if not os.path.exists("outputs/"):
+        os.mkdir("outputs/")
+
+    if not os.path.exists("autotests/"):
+        os.mkdir("autotests/")
+
+
 def run_tools():
     print("Running tools..")
     for key, tool in CONFIGURATION_JSON['tools'].items():
@@ -66,7 +80,16 @@ def run_tools():
         OUTPUT_JSON['tools'][key]['full_output'] = full_output
         OUTPUT_JSON['tools'][key]['outcome'] = outcome
 
+    save_output_json()
+
     return Result.SUCCESS
+
+
+def save_output_json():
+    current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
+    output_file_name = f"{current_time}_output.json"
+    with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
+        json.dump(OUTPUT_JSON, output_file, ensure_ascii=False, indent=4)
 
 
 def getCheckerByToolName(tool_name):

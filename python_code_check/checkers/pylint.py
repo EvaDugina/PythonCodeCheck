@@ -22,7 +22,7 @@ class Pylint(Checker):
         super().__init__(config_json, files_to_check)
         self._checks = config_json['checks']
 
-    def get_flags_from_configuration(self):
+    def get_flags_from_configuration(self, check_name=None):
         flags = []
         disable_checks = []
         for check in self._checks:
@@ -90,11 +90,11 @@ class Pylint(Checker):
         checks_json = {"checks": self.get_check_results(self._checks, extended_results)}
         outcome = self.get_outcome(checks_json["checks"])
 
-        current_time = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
-        output_file_name = f"{current_time}_{self.NAME}.txt"
+        current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
+        output_file_name = f"{current_time}_output_{self.NAME}.txt"
         with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
             output_file.write(non_parsed_output)
-            print(non_parsed_output)
+            # print(non_parsed_output)
 
         print("Pylint checked")
 

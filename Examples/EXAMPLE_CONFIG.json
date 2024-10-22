@@ -37,29 +37,37 @@
       ]
     },
     "pytest": {
-      "enabled": "true",
+      "enabled": "false",
       "show_to_student": "false",
-      "test_path": "EXAMPLE_PYTEST.py",
-      "check": {
+      "bin": "pytest",
+      "checks": [
+        {
+          "check": "base",
           "enabled": "true",
           "limit": "0",
           "autoreject": "true",
-          "lab_number": "1"
-      }
+          "test_file_path": "../Examples/EXAMPLE_AUTOTESTS.py"
+        },
+        {
+          "check": "base2",
+          "enabled": "true",
+          "limit": "0",
+          "autoreject": "false",
+          "test_file_path": "../Examples/EXAMPLE_AUTOTESTS_2.py"
+        }
+      ]
     },
     "copydetect": {
       "enabled": "true",
       "show_to_student": "false",
-      "bin": "copydetect",
       "arguments": "",
+      "bin": "copydetect",
       "check": {
           "type": "with_all",
           "limit": "50",
           "reference_directory": "copydetect",
           "autoreject": "true"
-      },
-      "full_output": "output_copydetect.html",
-      "outcome": "pass"
+      }
     }
   }
 }
