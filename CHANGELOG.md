@@ -1,3 +1,14 @@
+## 0.13.0 (2024-10-22)
+
+### Feat
+
+- Copydetect
+
+### Fix
+
+- Pytest
+- Configuration
+
 ## 0.12.0 (2024-10-18)
 
 ### Feat
