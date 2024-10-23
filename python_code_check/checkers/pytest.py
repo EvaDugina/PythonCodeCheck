@@ -33,10 +33,7 @@ class Pytest(Checker):
     def __init__(self, config_json, files_to_check):
         super().__init__(config_json, files_to_check)
         self._check = config_json['check']
-        current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
-        self._current_test_pack_dir_name = f"{current_time}_test_pack/"
-        self._path_to_current_autotest_pack = f"{self.PATH_TO_AUTOTESTS}{self._current_test_pack_dir_name}/"
-        os.mkdir(self._path_to_current_autotest_pack)
+        self._path_to_current_autotest_pack = f"{self.PATH_TO_AUTOTESTS}"
         os.mkdir(f"{self._path_to_current_autotest_pack}student_code/")
 
     def get_flags_from_configuration(self, check_name=None) -> []:
@@ -85,7 +82,7 @@ class Pytest(Checker):
         total_output = ""
         for key, autotest_path in self._compair_path_to_tests.items():
             result = subprocess.run(["pytest"] + self.get_flags_from_configuration(key) + [autotest_path],
-                                    cwd=self._path_to_current_autotest_pack, capture_output=True)
+                                    cwd=self.PATH_TO_AUTOTESTS, capture_output=True)
             output = result.stdout.decode("cp1251")
             print(output)
             total_output += output + "\n\n"
@@ -94,27 +91,26 @@ class Pytest(Checker):
 
         outcome = self.get_outcome(check_json["check"])
 
-        current_time = (datetime.now() - timedelta(microseconds=1)).strftime("%Y%m%d%H%M%S%f")
-        output_file_name = f"{current_time}_output_{self.NAME}.txt"
-        with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
+        output_file_name = f"output_{self.NAME}.txt"
+        with open(output_file_name, "w", encoding="utf-8") as output_file:
             output_file.write(total_output)
             # print(total_output)
 
         print("Pytest checked")
-        remove_directory(self._path_to_current_autotest_pack)
+        remove_directory(self.PATH_TO_AUTOTESTS)
 
         return check_json, output_file_name, outcome
 
     def copy_files_to_tests_folder(self):
 
-        shutil.copy("./python_code_check/conftest_for_cloning.py", f"{self._path_to_current_autotest_pack}conftest.py")
+        shutil.copy("./python_code_check/conftest_for_cloning.py", f"{self.PATH_TO_AUTOTESTS}conftest.py")
 
         for file_path in self._files_to_check:
             file_name = os.path.basename(file_path)
-            shutil.copy(file_path, f"{self._path_to_current_autotest_pack}student_code/{file_name}")
+            shutil.copy(file_path, f"{self.PATH_TO_AUTOTESTS}student_code/{file_name}")
 
         for key, autotest_file_path in self.get_autotest_from_config().items():
             file_name = os.path.basename(autotest_file_path)
-            new_autotest_file_path = f"{self._path_to_current_autotest_pack}{file_name}"
+            new_autotest_file_path = f"{self.PATH_TO_AUTOTESTS}{file_name}"
             shutil.copy(autotest_file_path, new_autotest_file_path)
             self._compair_path_to_tests[key] = file_name

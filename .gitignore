@@ -1,5 +1,5 @@
-autotesting/*
-outputs/*
+*autotesting/*
+*outputs/*
 
 .idea/
 env/

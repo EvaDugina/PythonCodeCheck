@@ -1,5 +1,4 @@
 {
-  "uniqueTimeKey": "20241022160645133058",
   "tools": {
     "pylint": {
       "enabled": "true",
@@ -42,7 +41,7 @@
       "show_to_student": "false",
       "bin": "pytest",
       "arguments": "",
-      "test_path": "./python_code_check/autotests/EXAMPLE_AUTOTESTS.py",
+      "test_path": "./examples/EXAMPLE_AUTOTESTS.py",
       "check": {
           "limit": "0",
           "autoreject": "true"

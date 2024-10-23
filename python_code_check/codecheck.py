@@ -44,7 +44,7 @@ def validate_configuration_json():
             return False
         if 'bin' not in tool:
             continue
-        if which(tool['bin']) is None:
+        if tool['enabled'] and which(tool['bin']) is None:
             print("Tool " + tool['bin'] + " not installed, skipping..")
             tool['enabled'] = False
     return True
@@ -57,8 +57,6 @@ def validate_files_to_check():
 
 
 def check_directory_structure():
-    if not os.path.exists("outputs/"):
-        os.mkdir("outputs/")
 
     if not os.path.exists("autotesting/"):
         os.mkdir("autotesting/")
@@ -86,13 +84,7 @@ def run_tools():
 
 
 def save_output_json():
-    # current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
-    if 'uniqueTimeKey' in CONFIGURATION_JSON:
-        current_time = CONFIGURATION_JSON['uniqueTimeKey']
-    else:
-        current_time = ""
-    output_file_name = f"{current_time}_output.json"
-    with open(f"outputs/{output_file_name}", "w", encoding="utf-8") as output_file:
+    with open("output.json", "w", encoding="utf-8") as output_file:
         json.dump(OUTPUT_JSON, output_file, ensure_ascii=False, indent=4)
 
 
