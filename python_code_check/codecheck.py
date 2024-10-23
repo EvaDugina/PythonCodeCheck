@@ -64,19 +64,22 @@ def check_directory_structure():
 
 def run_tools():
     print("Running tools..")
+    flag_reject_all = False
     for key, tool in CONFIGURATION_JSON['tools'].items():
         checker = getCheckerByToolName(key)
         if checker is None:
             OUTPUT_JSON['tools'][key]['outcome'] = 'skip'
             continue
         checker = checker(tool, FILES_TO_CHECK)
-        if not checker.is_enabled():
+        if not checker.is_enabled() or flag_reject_all:
             OUTPUT_JSON['tools'][key]['outcome'] = 'skip'
             continue
         checks_json, full_output, outcome = checker.start()
         OUTPUT_JSON['tools'][key].update(checks_json)
         OUTPUT_JSON['tools'][key]['full_output'] = full_output
         OUTPUT_JSON['tools'][key]['outcome'] = outcome
+        if OUTPUT_JSON['tools'][key]['outcome'] == "reject":
+            flag_reject_all = True
 
     save_output_json()
 

@@ -64,12 +64,17 @@ class Pytest(Checker):
             return check
         check['failed'], check['passed'], check['seconds'] = self.get_count_results_by_check_name(extended_results)
         if check['failed'] > check['limit']:
-            check['outcome'] = "fail"
+            if check['autoreject']:
+                check['outcome'] = "reject"
+            else:
+                check['outcome'] = "fail"
         else:
             check['outcome'] = "pass"
         return check
 
     def get_outcome(self, check_result):
+        if check_result['outcome'] == "reject":
+            return "reject"
         if check_result['outcome'] == "fail":
             return "fail"
         return "pass"

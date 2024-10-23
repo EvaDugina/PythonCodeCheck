@@ -46,20 +46,27 @@ class Pylint(Checker):
         return count
 
     def get_check_results(self, current_checks, extended_results):
+        flag_reject_all = False
         for check in current_checks:
-            if not check['enabled']:
+            if not check['enabled'] or flag_reject_all:
                 check['result'] = 0
                 check['outcome'] = "skip"
                 continue
             check['result'] = self.get_count_results_by_check_name(check['check'], extended_results)
             if check['result'] > check['limit']:
-                check['outcome'] = "fail"
+                if check['autoreject']:
+                    check['outcome'] = "reject"
+                    flag_reject_all = True
+                else:
+                    check['outcome'] = "fail"
             else:
                 check['outcome'] = "pass"
         return current_checks
 
     def get_outcome(self, check_results):
         for result in check_results:
+            if result['outcome'] == "reject":
+                return "reject"
             if result['outcome'] == "fail":
                 return "fail"
         return "pass"
