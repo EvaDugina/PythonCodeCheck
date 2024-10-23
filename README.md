@@ -22,6 +22,11 @@ pip install .
 python_code_check -c config.json files [files ...]
 ```
 
+#### Using Examples
+```console
+python -m python_code_check -c config.json main.py storage.py
+```
+
 | Argument     | Description |
 | ------------ | ----------- |
 | -h, --help   | show help message and exit|
