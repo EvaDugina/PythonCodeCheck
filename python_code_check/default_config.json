@@ -42,22 +42,11 @@
       "show_to_student": "false",
       "bin": "pytest",
       "arguments": "",
-      "checks": [
-        {
-          "check": "base",
-          "enabled": "true",
+      "test_path": "./python_code_check/autotests/EXAMPLE_AUTOTESTS.py",
+      "check": {
           "limit": "0",
-          "autoreject": "true",
-          "test_file_path": "./python_code_check/autotests/EXAMPLE_AUTOTESTS.py"
-        },
-        {
-          "check": "base2",
-          "enabled": "false",
-          "limit": "0",
-          "autoreject": "false",
-          "test_file_path": "./python_code_check/autotests/EXAMPLE_AUTOTESTS_2.py"
+          "autoreject": "true"
         }
-      ]
     },
     "copydetect": {
       "enabled": "false",

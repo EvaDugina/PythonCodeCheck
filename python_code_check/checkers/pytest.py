@@ -25,14 +25,14 @@ class Pytest(Checker):
     NAME = "pytest"
     PATH_TO_AUTOTESTS = "autotesting/"
 
-    _checks = {}
+    _check = {}
     _path_to_current_autotest_pack = ""
     _compair_path_to_tests = {}
     _current_test_pack_dir_name = ""
 
     def __init__(self, config_json, files_to_check):
         super().__init__(config_json, files_to_check)
-        self._checks = config_json['checks']
+        self._check = config_json['check']
         current_time = datetime.now().strftime("%Y%m%d%H%M%S%f")
         self._current_test_pack_dir_name = f"{current_time}_test_pack/"
         self._path_to_current_autotest_pack = f"{self.PATH_TO_AUTOTESTS}{self._current_test_pack_dir_name}/"
@@ -41,7 +41,7 @@ class Pytest(Checker):
 
     def get_flags_from_configuration(self, check_name=None) -> []:
         flags = ["-q"]
-        if self.get_check_by_name(check_name)['autoreject']:
+        if self._check['autoreject']:
             flags.append("-x")
         if self._config_json['arguments'] != "":
             flags += self._config_json['arguments'].split(" ")
@@ -56,21 +56,12 @@ class Pytest(Checker):
 
     def get_autotest_from_config(self):
         autotest_files = {}
-        for check in self._checks:
-            if check['enabled']:
-                autotest_files[check['check']] = check['test_file_path']
+        if self._config_json['enabled']:
+            autotest_files['autotest'] = self._config_json['test_path']
         return autotest_files
 
-    def get_check_by_name(self, check_name):
-        for check in self._checks:
-            if check['check'] == check_name:
-                return check
-        return None
-
     def get_check_results(self, check, extended_results):
-        if check is None:
-            check = {'enabled': False}
-        if not check['enabled']:
+        if not self._config_json['enabled']:
             check['result'] = 0
             check['outcome'] = "skip"
             return check
@@ -81,17 +72,16 @@ class Pytest(Checker):
             check['outcome'] = "pass"
         return check
 
-    def get_outcome(self, check_results):
-        for result in check_results:
-            if result['outcome'] == "fail":
-                return "fail"
+    def get_outcome(self, check_result):
+        if check_result['outcome'] == "fail":
+            return "fail"
         return "pass"
 
     def start(self) -> tuple[dict, str, str]:
 
         self.copy_files_to_tests_folder()
 
-        checks_json = {"checks": []}
+        check_json = {"check": {}}
         total_output = ""
         for key, autotest_path in self._compair_path_to_tests.items():
             result = subprocess.run(["pytest"] + self.get_flags_from_configuration(key) + [autotest_path],
@@ -99,9 +89,10 @@ class Pytest(Checker):
             output = result.stdout.decode("cp1251")
             print(output)
             total_output += output + "\n\n"
-            checks_json["checks"].append(self.get_check_results(self.get_check_by_name(key), output))
+            check_json["check"] = self.get_check_results(self._check, output)
+            break
 
-        outcome = self.get_outcome(checks_json["checks"])
+        outcome = self.get_outcome(check_json["check"])
 
         current_time = (datetime.now() - timedelta(microseconds=1)).strftime("%Y%m%d%H%M%S%f")
         output_file_name = f"{current_time}_output_{self.NAME}.txt"
@@ -112,7 +103,7 @@ class Pytest(Checker):
         print("Pytest checked")
         remove_directory(self._path_to_current_autotest_pack)
 
-        return checks_json, output_file_name, outcome
+        return check_json, output_file_name, outcome
 
     def copy_files_to_tests_folder(self):
 
