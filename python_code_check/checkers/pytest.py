@@ -34,7 +34,8 @@ class Pytest(Checker):
         super().__init__(config_json, files_to_check)
         self._check = config_json['check']
         self._path_to_current_autotest_pack = f"{self.PATH_TO_AUTOTESTS}"
-        os.mkdir(f"{self._path_to_current_autotest_pack}student_code/")
+        if not os.path.exists(f"{self._path_to_current_autotest_pack}student_code/"):
+            os.mkdir(f"{self._path_to_current_autotest_pack}student_code/")
 
     def get_flags_from_configuration(self, check_name=None) -> []:
         flags = ["-q"]
